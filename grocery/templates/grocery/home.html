@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Grocery Transactions</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Grocery Management</h1>
+    </header>
+
+    <div class="container">
+        <a href="{% url 'add_item' %}">
+            <button style="background-color: #28a745;">Add Transaction</button>
+        </a>
+
+        <table>
+            <tr>
+                <th>Item Name</th>
+                <th>Price Per Unit</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.item.name }}</td>
+                <td>{{ transaction.item.price_per_unit }}</td>
+                <td>{{ transaction.quantity }}</td>
+                <td>{{ transaction.total_price }}</td>
+                <td>
+                    <a href="{% url 'delete_transaction' transaction.id %}">
+                        <button style="background-color: #DC3545;">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Total Amount: {{ total_price }}</h2>
+
+        <div style="display: flex; gap: 10px;">
+            <a href="{% url 'print_bill' %}">
+                <button style="background-color: #007BFF;">Print Bill</button>
+            </a>
+            <a href="{% url 'delete_all_transactions' %}">
+                <button style="background-color: #DC3545;">Delete All</button>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grocery Management System. Designed with ❤️</p>
+    </footer>
+</body>
+</html>

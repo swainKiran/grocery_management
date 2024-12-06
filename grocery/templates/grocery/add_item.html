@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search and Add Grocery Item</title>
+    <link rel="stylesheet" href="{% static 'css/add_item.css' %}">
+</head>
+<body>
+    <center>
+        <h1>Search and Add Grocery Item</h1>
+
+        <!-- Search Form -->
+        <form method="get" action="{% url 'add_item' %}">
+            <input type="text" name="search" placeholder="Search for an item..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- List of Items -->
+        <form method="post">
+            {% csrf_token %}
+            <label for="item">Select Item:</label>
+            <select name="item" required>
+                {% for item in items %}
+                    <option value="{{ item.id }}">{{ item.name }} (₹{{ item.price_per_kg }}/kg)</option>
+                {% endfor %}
+            </select>
+            <br><br>
+
+            <label for="quantity">Enter Quantity:</label>
+            <div>
+                <input type="number" name="kg_quantity" id="kg_quantity" placeholder="Kilograms" min="0">
+                <input type="number" name="gm_quantity" id="gm_quantity" placeholder="Grams" min="0" step="1" max="999">
+            </div>
+            <br><br>
+
+            <button type="submit">Add Transaction</button>
+        </form>
+
+        <a href="{% url 'home' %}">Back to Home</a>
+    </center>
+</body>
+</html>
